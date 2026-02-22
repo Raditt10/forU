@@ -32,7 +32,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
     const isMobile = window.innerWidth <= 768;
 
     const getTitleText = () => {
-        if (isAccepted) return "HOREEEE!!";
+        if (isAccepted) return "HOREEE KAMU MENERIMA AKU ❤️!!";
         if (noCount >= 3) return "TAPI BOONG HEHEHE";
         if (noCount > 0) return messages[noCount - 1].text;
         
