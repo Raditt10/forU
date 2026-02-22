@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import confetti from 'canvas-confetti';
 
 const messages = [
     {
@@ -23,6 +24,8 @@ interface GombalanProps {
 const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
     const [noCount, setNoCount] = useState(0);
     const [isAccepted, setIsAccepted] = useState(false);
+    const [cardFading, setCardFading] = useState(false);
+    const [isOfficiallyCouple, setIsOfficiallyCouple] = useState(false);
     
     // Posisi dan style tombol No
     const [noBtnStyle, setNoBtnStyle] = useState<React.CSSProperties>({});
@@ -49,80 +52,106 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
     const handleYesClick = () => {
         setIsAccepted(true);
         onSuccess(noCount);
+        
+        // Trigger confetti
+        var duration = 3 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+        var interval: any = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+            var particleCount = 50 * (timeLeft / duration);
+            confetti({ ...defaults, particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } });
+        }, 250);
+
+        // Setelah 5 detik, fade out lalu ganti ke kartu resmi pacaran
+        setTimeout(() => {
+            setCardFading(true);
+            setTimeout(() => {
+                setCardFading(false);
+                setIsOfficiallyCouple(true);
+                // Confetti lagi pas kartu baru muncul 🎉
+                confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 }, zIndex: 10000 });
+            }, 800);
+        }, 5000);
     };
 
-    const isNearContainer = (x: number, y: number, containerRect: DOMRect, safeDistance: number) => {
-        return x >= containerRect.left - safeDistance &&
-               x <= containerRect.right + safeDistance &&
-               y >= containerRect.top - safeDistance &&
-               y <= containerRect.bottom + safeDistance;
-    };
+    const runAway = (e?: React.MouseEvent | MouseEvent | TouchEvent, fromTouch: boolean = false) => {
+        if (!noBtnRef.current) return;
 
-    const getFarPosition = (containerRect: DOMRect, windowWidth: number, windowHeight: number, buttonWidth: number, buttonHeight: number, safeDistance: number) => {
-        const positions = [
-            { x: Math.max(20, containerRect.left - buttonWidth - safeDistance), y: Math.random() * (windowHeight - buttonHeight - 40) + 20 },
-            { x: Math.min(windowWidth - buttonWidth - 20, containerRect.right + safeDistance), y: Math.random() * (windowHeight - buttonHeight - 40) + 20 },
-            { x: Math.random() * (windowWidth - buttonWidth - 40) + 20, y: Math.max(20, containerRect.top - buttonHeight - safeDistance) },
-            { x: Math.random() * (windowWidth - buttonWidth - 40) + 20, y: Math.min(windowHeight - buttonHeight - 20, containerRect.bottom + safeDistance) }
-        ];
-        return positions[Math.floor(Math.random() * positions.length)];
-    };
+        const btn = noBtnRef.current;
+        const btnRect = btn.getBoundingClientRect();
 
-    const runAway = () => {
-        if (!containerRef.current || !noBtnRef.current) return;
-
-        const containerRect = containerRef.current.getBoundingClientRect();
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        const buttonWidth = noBtnRef.current.offsetWidth;
-        const buttonHeight = noBtnRef.current.offsetHeight;
-        const safeDistance = isMobile ? 80 : 120;
+        const buttonWidth = btnRect.width || 100;
+        const buttonHeight = btnRect.height || 50;
+        const safePadding = 20;
 
-        // Ensure we calculate position relative to the viewport (fixed)
-        const currentX = parseInt(noBtnStyle.left as string) || containerRect.right + safeDistance;
-        const currentY = parseInt(noBtnStyle.top as string) || containerRect.top;
+        const currentX = btnRect.left;
+        const currentY = btnRect.top;
 
         let newX, newY;
 
-        if (isNearContainer(currentX, currentY, containerRect, safeDistance)) {
-            const farPosition = getFarPosition(containerRect, windowWidth, windowHeight, buttonWidth, buttonHeight, safeDistance);
-            newX = farPosition.x;
-            newY = farPosition.y;
+        if (fromTouch || !e) {
+             newX = Math.random() * (windowWidth - buttonWidth - safePadding * 2) + safePadding;
+             newY = Math.random() * (windowHeight - buttonHeight - safePadding * 2) + safePadding;
         } else {
-            newX = currentX + (Math.random() - 0.5) * (isMobile ? 150 : 300);
-            newY = currentY + (Math.random() - 0.5) * (isMobile ? 150 : 300);
+             let cursorX = 0;
+             let cursorY = 0;
+             if ('clientX' in e) {
+                 cursorX = e.clientX;
+                 cursorY = e.clientY;
+             }
+             
+             const btnCenterX = currentX + buttonWidth / 2;
+             const btnCenterY = currentY + buttonHeight / 2;
+
+             const dx = btnCenterX - cursorX;
+             const dy = btnCenterY - cursorY;
+
+             const moveDist = 150;
+             
+             if (dx === 0 && dy === 0) {
+                 newX = currentX + (Math.random() > 0.5 ? moveDist : -moveDist);
+                 newY = currentY + (Math.random() > 0.5 ? moveDist : -moveDist);
+             } else {
+                 const angle = Math.atan2(dy, dx);
+                 newX = currentX + Math.cos(angle) * moveDist;
+                 newY = currentY + Math.sin(angle) * moveDist;
+             }
         }
 
-        const padding = isMobile ? 20 : 40;
-        newX = Math.max(padding, Math.min(windowWidth - buttonWidth - padding, newX));
-        newY = Math.max(padding, Math.min(windowHeight - buttonHeight - padding, newY));
+        if (newX < safePadding) newX = safePadding;
+        if (newX > windowWidth - buttonWidth - safePadding) newX = windowWidth - buttonWidth - safePadding;
+        
+        if (newY < safePadding) newY = safePadding;
+        if (newY > windowHeight - buttonHeight - safePadding) newY = windowHeight - buttonHeight - safePadding;
 
         setNoBtnStyle({
             position: 'fixed',
-            transition: `all ${isMobile ? '0.8s' : '0.6s'} cubic-bezier(0.34, 1.56, 0.64, 1)`,
             left: `${newX}px`,
             top: `${newY}px`,
+            transition: 'left 0.2s ease-out, top 0.2s ease-out',
             zIndex: 9999
         });
     };
 
-    const handleNoClick = (e: React.MouseEvent | React.TouchEvent) => {
+    const handleNoClick = (e: React.MouseEvent) => {
         if (noCount < 3) {
             setNoCount(prev => prev + 1);
         } else {
-            runAway();
+            runAway(e, false);
         }
     };
 
-    const handleButtonDodge = (e: React.MouseEvent | React.TouchEvent) => {
-        if (noCount >= 3) {
-            e.preventDefault(); // Might not be perfectly possible with React synthetic events mapped to touchstart passively
-            e.stopPropagation();
-            runAway();
+    const handleMouseEnter = (e: React.MouseEvent) => {
+        if (noCount >= 3 && !isMobile) {
+            runAway(e, false);
         }
     };
     
-    // Handling passive touch events for running away need vanilla listeners because React hooks them up globally
     useEffect(() => {
         const btn = noBtnRef.current;
         if (!btn) return;
@@ -131,43 +160,122 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
              if (noCount >= 3) {
                  e.preventDefault();
                  e.stopPropagation();
-                 runAway();
-             }
-        };
-        const touchMoveHandler = (e: TouchEvent) => {
-             if (noCount >= 3) {
-                 e.preventDefault();
+                 runAway(e, true);
              }
         };
 
         btn.addEventListener('touchstart', touchStartHandler, { passive: false });
-        btn.addEventListener('touchmove', touchMoveHandler, { passive: false });
 
         return () => {
             btn.removeEventListener('touchstart', touchStartHandler);
-            btn.removeEventListener('touchmove', touchMoveHandler);
         };
     }, [noCount, noBtnStyle]);
 
-
     return (
-        <div className="container" ref={containerRef}>
-            <h1 className="title">{getTitleText()}</h1>
-            <img src={getImageSrc()} alt="cute-gif" />
-            
-            {!isAccepted && (
-                <div className="buttons">
-                    <button className="btn yes-btn" onClick={handleYesClick}>Yes</button>
-                    <button 
-                        ref={noBtnRef}
-                        className={`btn no-btn ${noCount >= 3 ? 'running' : ''}`}
-                        onClick={handleNoClick}
-                        onMouseOver={handleButtonDodge}
-                        style={noBtnStyle}
-                    >
-                        No
-                    </button>
-                </div>
+        <div 
+            className="container" 
+            ref={containerRef}
+            style={{
+                width: isMobile ? "90vw" : "450px",
+                height: "auto",
+                minHeight: "250px",
+                padding: "3rem",
+                borderRadius: "25px",
+                border: "4px dashed #ff4d79",
+                boxShadow: "0 10px 30px rgba(255, 77, 121, 0.3)",
+                backgroundColor: "#fff",
+                margin: "20px auto",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                zIndex: 10,
+                transition: "opacity 0.8s ease",
+                opacity: cardFading ? 0 : 1
+            }}
+        >
+            {isOfficiallyCouple ? (
+                // ==== KARTU RESMI PACARAN ====
+                <>
+                    <h1 className="title" style={{ color: '#ff4d79', fontSize: isMobile ? '1.3rem' : '1.6rem', marginBottom: '20px', animation: 'popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)' }}>
+                        KITA RESMI PACARAN YAA SEKARANG {targetName ? targetName.toUpperCase() : 'KAMU'}! 💕
+                    </h1>
+                    <img 
+                        src="https://media1.tenor.com/m/2hYcy8HQrMUAAAAC/peach-cat-peach-and-goma.gif"
+                        alt="couple sticker" 
+                        style={{ 
+                            maxWidth: '100%', 
+                            maxHeight: '220px',
+                            borderRadius: '20px', 
+                            objectFit: 'cover',
+                            marginBottom: '16px',
+                            animation: 'popIn 0.7s cubic-bezier(0.34,1.56,0.64,1)'
+                        }} 
+                    />
+                    <p style={{ color: '#ff758c', fontSize: '1.1rem', fontWeight: 'bold', margin: 0 }}>muah!🩷</p>
+                </>
+            ) : (
+                // ==== KARTU BIASA (PERTANYAAN + ACCEPTED) ====
+                <>
+                    <h1 className="title" style={{ color: '#ff4d79', fontSize: '1.5rem', marginBottom: '20px' }}>
+                        {getTitleText()}
+                    </h1>
+                    
+                    <img 
+                        src={getImageSrc()} 
+                        alt="cute-gif" 
+                        style={{ 
+                            maxWidth: '100%', 
+                            maxHeight: '200px',
+                            borderRadius: '15px', 
+                            objectFit: 'cover',
+                            marginBottom: '20px'
+                        }} 
+                    />
+                    
+                    {!isAccepted && (
+                        <div className="buttons" style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+                            <button 
+                                className="btn yes-btn" 
+                                onClick={handleYesClick}
+                                style={{
+                                    padding: '10px 25px',
+                                    fontSize: '1.1rem',
+                                    backgroundColor: '#ff4d79',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '50px',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    boxShadow: '0 4px 15px rgba(255, 77, 121, 0.4)'
+                                }}
+                            >
+                                Yes
+                            </button>
+                            <button 
+                                ref={noBtnRef}
+                                className={`btn no-btn ${noCount >= 3 ? 'running' : ''}`}
+                                onClick={handleNoClick}
+                                onMouseEnter={handleMouseEnter}
+                                style={{
+                                    ...noBtnStyle,
+                                    padding: '10px 25px',
+                                    fontSize: '1.1rem',
+                                    backgroundColor: '#f1f1f1',
+                                    color: '#ff4d79',
+                                    border: '2px solid #ff4d79',
+                                    borderRadius: '50px',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                No
+                            </button>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );
