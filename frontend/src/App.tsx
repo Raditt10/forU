@@ -45,7 +45,7 @@ function App() {
       <div className="start-screen">
         <HeartEffect />
         <div className="start-modal">
-          <h2>Ada pesan buat kamu! 💌</h2>
+          <h2>Ada pesan nih buat kamu {targetName ? targetName : 'kamu'}!</h2>
           <button className="btn start-btn" onClick={handleStart}>
             Klik untuk Buka
           </button>
