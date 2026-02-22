@@ -8,7 +8,6 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white)
 ![Discord.js](https://img.shields.io/badge/Discord.js-5865F2?style=flat&logo=discord&logoColor=white)
 ![GSAP](https://img.shields.io/badge/GSAP-GreenSock-88CE02?style=flat&logo=greensock&logoColor=white&labelColor=323330)
-![License](https://img.shields.io/badge/License-MIT-88CE02?style=flat&labelColor=323330)
 
 **forU (Buat Kamu)** adalah sebuah aplikasi web full-stack interaktif yang dirancang khusus untuk memberikan pesan romantis, gombalan, atau kejutan digital kepada seseorang. Aplikasi ini sangat interaktif, menghadirkan efek visual, musik latar otomatis, dan tombol "No" yang bisa menghindar saat diklik!
 
