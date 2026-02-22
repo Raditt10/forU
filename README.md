@@ -131,13 +131,11 @@ Buka file `.env` dan sesuaikan nilainya:
 
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/forU
-DISCORD_WEBHOOK_URL=url_webhook_discord_kamu
-DISCORD_BOT_TOKEN=token_bot_discord_kamu
-```
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/forU
+DISCORD_WEBHOOK_URL=[https://discord.com/api/webhooks/](https://discord.com/api/webhooks/)...
+FRONTEND_URL=http://localhost:5173
 
 Jalankan Server Backend:
-
 ```bash
 npm run dev
 # Atau
