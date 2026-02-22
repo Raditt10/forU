@@ -18,9 +18,9 @@ Selain itu, setiap interaksi target (apakah mereka berhasil menekan "Yes" dan be
 
 _(Tambahkan screenshot project kamu di folder `docs/` atau ganti URL gambar di bawah ini)_
 
-|                       Halaman Awal (Start Screen)                        |                                 Halaman Gombalan                                 |                  Hasil Akhir (Ditolak/Diterima)                  |
-| :----------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :--------------------------------------------------------------: |
-| ![Start Screen](https://via.placeholder.com/300x500.png?text=Buka+Pesan) | ![Gombalan](https://via.placeholder.com/300x500.png?text=Apakah+Kamu+Sayang+Aku) | ![Success](https://via.placeholder.com/300x500.png?text=Horeee!) |
+|    Halaman Awal (Start Screen)    |         Halaman Gombalan         | Hasil Akhir (Ditolak/Diterima) |
+| :-------------------------------: | :------------------------------: | :----------------------------: |
+| ![Start Screen](./docs/start.png) | ![Gombalan](./docs/gombalan.png) | ![Success](./docs/success.png) |
 
 ---
 
