@@ -1,88 +1,179 @@
-# Buat Kamu (Special Webpage)
+# 💌 forU - Buat Kamu (Interactive Digital Gift)
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Discord.js](https://img.shields.io/badge/Discord.js-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 
-**Buat Kamu** adalah sebuah halaman web sederhana namun interaktif yang dirancang khusus untuk menyampaikan pesan atau ucapan spesial kepada seseorang (digital gifting). Website ini dilengkapi dengan elemen visual dan audio (musik latar) untuk menciptakan pengalaman yang emosional dan berkesan bagi penerimanya.
+**forU (Buat Kamu)** adalah sebuah aplikasi web full-stack interaktif yang dirancang khusus untuk memberikan pesan romantis, gombalan, atau kejutan digital kepada seseorang. Aplikasi ini sangat interaktif, menghadirkan efek visual, musik latar otomatis, dan tombol "No" yang bisa menghindar saat diklik!
 
-## 📌 Deskripsi Project
-Project ini dibuat sebagai template untuk memberikan kejutan digital.
-* **Pengalaman Imersif:** Menggabungkan tampilan visual dengan musik latar (`bgMusic`) yang berputar otomatis.
-* **Simpel & Ringan:** Dibangun menggunakan teknologi web dasar tanpa framework berat, memastikan loading cepat di berbagai perangkat.
-* **Personalisasi Mudah:** Struktur kode yang sederhana memudahkan pengubahan teks, gambar, atau musik sesuai kebutuhan.
-
-## 🛠️ Tech Stack
-Teknologi yang digunakan sangat minimalis dan *native*:
-
-* **Frontend:** HTML5, CSS3
-* **Logic & Interactivity:** Vanilla JavaScript (DOM Manipulation)
-* **Deployment:** Vercel (Dikonfigurasi melalui `vercel.json`)
-
-## 🚀 Fitur Utama
-* **Autoplay Music**: Musik latar yang berjalan otomatis saat halaman dimuat (dengan penyesuaian volume).
-* **Animasi Interaktif**: (Asumsi berdasarkan `script.js` dan `style.css`) Efek visual atau transisi teks yang menarik.
-* **Responsive Layout**: Tampilan yang menyesuaikan layar desktop maupun mobile.
-
-## 📁 Struktur Folder
-```text
-buat-kamu/
-├── index.html         # Struktur utama halaman web
-├── style.css          # Pengaturan gaya dan animasi
-├── script.js          # Logika interaktif dan kontrol musik
-├── vercel.json        # Konfigurasi untuk deploy ke Vercel
-└── package.json       # Metadata project (jika ada script build)
-
-```
-
-## ⚙️ Instalasi & Kustomisasi
-
-Ikuti langkah ini untuk menjalankan atau mengedit project di komputer lokal:
-
-1. **Clone Repository**
-```bash
-git clone [https://github.com/username/buat-kamu.git](https://github.com/username/buat-kamu.git)
-cd buat-kamu
-
-```
-
-
-2. **Jalankan Project**
-Karena ini adalah *static site*, Anda cukup membuka file `index.html` secara langsung di browser.
-* Atau gunakan ekstensi **Live Server** di VS Code untuk pengalaman development yang lebih baik.
-
-
-3. **Ganti Musik**
-* Siapkan file musik (mp3) pilihan Anda.
-* Simpan di folder project.
-* Edit tag `<audio>` di `index.html` atau referensi di `script.js` sesuai nama file musik baru.
-
-
-
-## ☁️ Cara Deploy (Vercel)
-
-Project ini sudah siap untuk dideploy ke Vercel:
-
-1. Upload kode ke GitHub.
-2. Buka dashboard [Vercel](https://vercel.com).
-3. Import repository GitHub Anda.
-4. Vercel akan otomatis mendeteksi konfigurasi static site.
-5. Klik **Deploy**.
-
-## 🤝 Kontribusi
-
-Ingin menambahkan animasi baru atau fitur "klik untuk buka kado"?
-
-1. Fork repository ini.
-2. Buat branch baru.
-3. Lakukan perubahan.
-4. Submit Pull Request.
-
-## 📄 Lisensi
-
-Project ini bersifat *Open Source*. Bebas digunakan dan dimodifikasi.
+Selain itu, setiap interaksi target (apakah mereka berhasil menekan "Yes" dan berapa kali mereka mencoba menekan "No") akan dicatat ke dalam database dan langsung dikirimkan ke **Discord** kamu secara _real-time_!
 
 ---
 
-*Hak cipta sepenuhnya milik pengembang Kanjirouu.*
+## � Screenshot Tampilan
+
+_(Tambahkan screenshot project kamu di folder `docs/` atau ganti URL gambar di bawah ini)_
+
+|                       Halaman Awal (Start Screen)                        |                                 Halaman Gombalan                                 |                  Hasil Akhir (Ditolak/Diterima)                  |
+| :----------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :--------------------------------------------------------------: |
+| ![Start Screen](https://via.placeholder.com/300x500.png?text=Buka+Pesan) | ![Gombalan](https://via.placeholder.com/300x500.png?text=Apakah+Kamu+Sayang+Aku) | ![Success](https://via.placeholder.com/300x500.png?text=Horeee!) |
+
+---
+
+## ✨ Fitur Utama
+
+### 🎨 Frontend (UI/UX)
+
+- **Interactive "No" Button**: Tombol "No" akan kabur/menghindar secara acak apabila pengguna mencoba mengekliknya lebih dari 3 kali.
+- **Autoplay Background Music**: Musik latar romantis yang berjalan otomatis setelah interaksi pertama pengguna.
+- **Dynamic Images & Text**: Gambar GIF romantis dan teks gombalan yang berubah-ubah tergantung respon target.
+- **Heart Effect Animation**: Efek animasi hujan hati (love) berjatuhan di latar belakang.
+- **Responsive Design**: Mendukung tampilan mobile (HP) maupun desktop dengan baik.
+- **URL Parameter Parsing**: Bisa merender nama target secara dinamis via URL (Contoh: `/?target=Ayang`).
+
+### ⚙️ Backend & Integrasi
+
+- **Real-time Discord Notification**: Notifikasi otomatis ke server Discord melalui Webhook/Bot setiap kali target mengklik "Yes".
+- **Interaction Data Logging**: Menyimpan log interaksi pengguna ke dalam database MongoDB.
+- **CORS Enabled**: Mendukung _Cross-Origin Resource Sharing_ antara frontend dan backend.
+
+---
+
+## 🛠️ Tech Stack
+
+Project ini dikembangkan menggunakan teknologi modern:
+
+### Frontend
+
+- **Framework**: React 19
+- **Build Tool**: Vite
+- **Language**: TypeScript
+- **Styling**: Vanilla CSS3 (Custom Styles & Animations)
+
+### Backend
+
+- **Runtime**: Node.js
+- **Framework**: Express.js 5
+- **Database**: MongoDB (dipadukan dengan Mongoose)
+- **Integration**: Discord.js v14 & node-fetch
+
+---
+
+## 📁 Struktur Project
+
+```text
+forU/
+├── backend/                  # REST API & Discord Bot Logic
+│   ├── models/               # Skema Database Mongoose (Interaction)
+│   ├── utils/                # Utility (Discord bot & Webhook API)
+│   ├── server.js             # Entry point backend
+│   ├── package.json          # Dependencies backend
+│   └── .env.example          # Contoh variabel environment backend
+│
+├── frontend/                 # Aplikasi Web React (UI)
+│   ├── src/
+│   │   ├── assets/           # Gambar, musik, atau file statis lainnya
+│   │   ├── components/       # Reusable components (Gombalan.tsx, HeartEffect.tsx)
+│   │   ├── App.tsx           # Main application logic
+│   │   ├── main.tsx          # Entry point aplikasi React
+│   │   └── App.css & index.css # Styling utama
+│   ├── index.html            # Template HTML
+│   ├── vite.config.ts        # Konfigurasi Vite bundler
+│   └── package.json          # Dependencies frontend
+└── README.md                 # Dokumentasi project (File ini)
+```
+
+---
+
+## ⚙️ Cara Instalasi & Menjalankan Project Lokal
+
+Karena project ini terdiri dari **Frontend** dan **Backend**, kamu perlu menjalankan keduanya secara terpisah.
+
+### 1. Persiapan Awal
+
+Pastikan kamu telah menginstal:
+
+- [Node.js](https://nodejs.org/) (Versi LTS terbaru)
+- [MongoDB](https://www.mongodb.com/try/download/community) (Lokal atau MongoDB Atlas)
+- Token Bot Discord atau Webhook URL (untuk fitur notifikasi)
+
+### 2. Setup Backend
+
+```bash
+# Pindah ke direktori backend
+cd backend
+
+# Install semua dependencies
+npm install
+
+# Copy pengaturan environment
+cp .env.example .env
+```
+
+**Konfigurasi Variabel Environment (`backend/.env`):**
+Buka file `.env` dan sesuaikan nilainya:
+
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/forU
+DISCORD_WEBHOOK_URL=url_webhook_discord_kamu
+DISCORD_BOT_TOKEN=token_bot_discord_kamu
+```
+
+Jalankan Server Backend:
+
+```bash
+npm run dev
+# Atau
+node server.js
+```
+
+_Backend akan berjalan di: `http://localhost:5000`_
+
+### 3. Setup Frontend
+
+Buka terminal baru (_new terminal_), dan jalankan:
+
+```bash
+# Balik ke direktori utama, lalu masuk ke frontend
+cd frontend
+
+# Install semua dependencies
+npm install
+
+# Jalankan server frontend
+npm run dev
+```
+
+_Frontend akan berjalan di: `http://localhost:5173` (cek terminal Vite untuk URL pastinya)_
+
+---
+
+## 🚀 Dokumentasi Penggunaan
+
+1. Buka browser dan arahkan ke alamat frontend (misal: `http://localhost:5173`).
+2. **Kustomisasi Halaman untuk Seseorang:**
+   Kamu dapat menambahkan nama target di akhir URL menggunakan parameter `target`.
+   Contoh: `http://localhost:5173/?target=Nadia`
+   Teks utama akan secara otomatis berubah menjadi: `"Nadia, apakah kamujh sayang ak?"`
+3. Begitu target berhasil mengklik tombol **"Yes"**, backend otomatis mencatat respons tersebut ke MongoDB dan ngirim pesan ke Discord kamu.
+
+---
+
+## ☁️ Deployment
+
+- **Frontend** bisa di-host dengan mudah menggunakan **Vercel**, **Netlify**, atau **Cloudflare Pages** (menggunakan instruksi build `npm run build`).
+- **Backend** membutuhkan server Node.js atau VPS seperti **Render**, **Railway**, atau **Heroku**.
+- **Database** bisa di-hosting menggunakan layanan gratis seperti **MongoDB Atlas**.
+
+---
+
+## 📄 Lisensi
+
+Project ini dibuat untuk tujuan pembelajaran, hiburan, dan memberi hadiah manis kepada seseorang. Bebas digunakan, dicloning, dan dimodifikasi sesukamu.
+
+_Code with ❤️ by Kanjirouu._
