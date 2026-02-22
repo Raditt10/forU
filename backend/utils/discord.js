@@ -25,7 +25,7 @@ async function sendDiscordNotification(data) {
             },
             body: JSON.stringify({
                 content: message,
-                username: "Sigma Bot",
+                username: "Rizz Bot",
                 avatar_url: "https://i.pinimg.com/736x/e4/72/4d/e4724dc43d60d24fa01eda5d6614715a.jpg"
             })
         });
