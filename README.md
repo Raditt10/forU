@@ -1,4 +1,4 @@
-# 💌 forU - Buat Kamu (Interactive Digital Gift)
+﻿# 💌 forU - Buat Kamu (Interactive Digital Gift)
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
@@ -14,13 +14,24 @@ Selain itu, setiap interaksi target (apakah mereka berhasil menekan "Yes" dan be
 
 ---
 
-## � Screenshot Tampilan
+## 📸 Preview Antarmuka
 
-_(Tambahkan screenshot project kamu di folder `docs/` atau ganti URL gambar di bawah ini)_
-
-|    Halaman Awal (Start Screen)    |         Halaman Gombalan         | Hasil Akhir (Ditolak/Diterima) |
-| :-------------------------------: | :------------------------------: | :----------------------------: |
-| ![Start Screen](./docs/start.png) | ![Gombalan](./docs/gombalan.png) | ![Success](./docs/success.png) |
+<p align="center">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: separate; border-spacing: 15px;">
+    <tr>
+      <td align="center" width="50%">
+        <img src="./screenshot/menu.png" alt="Landing Page" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      </td>
+      <td align="center" width="50%">
+        <img src="./screenshot/review_hasil.png" alt="Halaman Surat" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding-top: 10px;"><b>Halaman Awal (Landing Page)</b></td>
+      <td align="center" style="padding-top: 10px;"><b>Halaman Interaktif (Hasil Gombalan)</b></td>
+    </tr>
+  </table>
+</p>
 
 ---
 
