@@ -1,0 +1,14 @@
+{
+  "name": "Gombalan sigma",
+  "version": "1.0.0",
+  "description": "Ganggu",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
+
