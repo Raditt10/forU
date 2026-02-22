@@ -5,6 +5,7 @@ import gsap from 'gsap';
 
 function App() {
   const [hasStarted, setHasStarted] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const [targetName, setTargetName] = useState<string | null>(null);
   const [isEnvelopeOpened, setIsEnvelopeOpened] = useState(false);
 
@@ -21,7 +22,12 @@ function App() {
     // Ambil parameter dari URL saat pertama kali dimuat
     const searchParams = new URLSearchParams(window.location.search);
     const target = searchParams.get('target');
-    if (target) setTargetName(target);
+    if (target) {
+      setTargetName(target);
+      document.title = `SURAT TERBUKA UNTUK ${target.toUpperCase()} 💌`;
+    } else {
+      document.title = 'FOR U 💌';
+    }
   }, []);
 
   useEffect(() => {
@@ -34,13 +40,26 @@ function App() {
   }, [isEnvelopeOpened]);
 
   const handleStart = () => {
-    setHasStarted(true);
     // Play music now that user has interacted
     const audio = document.getElementById('bgMusic') as HTMLAudioElement;
     if (audio) {
       audio.volume = 0.3;
       audio.play().catch(e => console.log('Audio autoplay prevented:', e));
     }
+
+    // Start 3-2-1 countdown
+    setCountdown(3);
+    let count = 3;
+    const interval = setInterval(() => {
+      count -= 1;
+      if (count > 0) {
+        setCountdown(count);
+      } else {
+        clearInterval(interval);
+        setCountdown(null);
+        setHasStarted(true);
+      }
+    }, 1000);
   };
 
   const handleSuccess = async (noCount: number) => {
@@ -135,8 +154,15 @@ function App() {
       <div className="start-screen">
         <HeartEffect />
         
-        <div className="envelope-scene">
-          <div className="envelope-container" ref={wrapperRef} onClick={!isEnvelopeOpened ? handleOpenEnvelope : undefined}>
+        {/* Countdown Overlay */}
+        {countdown !== null && (
+          <div className="countdown-overlay">
+            <h1 className="countdown-number" key={countdown}>{countdown}</h1>
+          </div>
+        )}
+
+        <div className="envelope-scene" style={{ opacity: countdown !== null ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: countdown !== null ? 'none' : 'auto' }}>
+          <div className="envelope-container" ref={wrapperRef} onClick={!isEnvelopeOpened && countdown === null ? handleOpenEnvelope : undefined}>
             
             <div className="envelope-back" ref={envelopeBackRef}>
               <svg viewBox="0 0 100 80" width="100%" height="100%" preserveAspectRatio="none">

@@ -26,6 +26,8 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
     const [isAccepted, setIsAccepted] = useState(false);
     const [cardFading, setCardFading] = useState(false);
     const [isOfficiallyCouple, setIsOfficiallyCouple] = useState(false);
+    const [showDateCard, setShowDateCard] = useState(false);
+    const [jadianDate, setJadianDate] = useState("");
     
     // Posisi dan style tombol No
     const [noBtnStyle, setNoBtnStyle] = useState<React.CSSProperties>({});
@@ -73,6 +75,23 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
                 setIsOfficiallyCouple(true);
                 // Confetti lagi pas kartu baru muncul 🎉
                 confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 }, zIndex: 10000 });
+
+                // Setelah 3 detik di kartu resmi pacaran, fade out ke kartu TANGGAL JADIAN
+                setTimeout(() => {
+                    setCardFading(true);
+                    setTimeout(() => {
+                        // Catat tanggal real-time saat ini
+                        const today = new Date();
+                        const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+                        setJadianDate(today.toLocaleDateString('id-ID', options));
+
+                        setCardFading(false);
+                        setShowDateCard(true);
+                        // Confetti final
+                        confetti({ particleCount: 150, spread: 120, origin: { y: 0.6 }, zIndex: 10000 });
+                    }, 800);
+                }, 3000);
+
             }, 800);
         }, 5000);
     };
@@ -196,14 +215,37 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
                 opacity: cardFading ? 0 : 1
             }}
         >
-            {isOfficiallyCouple ? (
+            {showDateCard ? (
+                // ==== KARTU FINAL: TANGGAL JADIAN ====
+                <>
+                    <h1 className="title" style={{ color: '#ff4d79', fontSize: isMobile ? '1.4rem' : '1.7rem', marginBottom: '20px', animation: 'popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)', lineHeight: '1.4' }}>
+                        TANGGAL JADIAN KITA <br/>
+                        <span style={{ fontSize: '2rem', color: '#ff1a53', textShadow: '0 2px 10px rgba(255, 26, 83, 0.3)', display: 'block', marginTop: '10px' }}>
+                            {jadianDate}
+                        </span>
+                    </h1>
+                    <img 
+                        src="https://media1.tenor.com/m/HZA1YV1NQkwAAAAC/happy-dance-panda.gif"
+                        alt="celebration sticker" 
+                        style={{ 
+                            maxWidth: '100%', 
+                            maxHeight: '220px',
+                            borderRadius: '20px', 
+                            objectFit: 'cover',
+                            marginBottom: '16px',
+                            animation: 'popIn 0.7s cubic-bezier(0.34,1.56,0.64,1)'
+                        }} 
+                    />
+                    <p style={{ color: '#ff758c', fontSize: '1.1rem', fontWeight: 'bold', margin: 0 }}>Happy Anniversary! 🎉💞</p>
+                </>
+            ) : isOfficiallyCouple ? (
                 // ==== KARTU RESMI PACARAN ====
                 <>
                     <h1 className="title" style={{ color: '#ff4d79', fontSize: isMobile ? '1.3rem' : '1.6rem', marginBottom: '20px', animation: 'popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)' }}>
                         KITA RESMI PACARAN YAA SEKARANG {targetName ? targetName.toUpperCase() : 'KAMU'}! 💕
                     </h1>
                     <img 
-                        src="https://media1.tenor.com/m/2hYcy8HQrMUAAAAC/peach-cat-peach-and-goma.gif"
+                        src="https://media1.tenor.com/m/b_rlhykPQ4AAAAAC/love.gif"
                         alt="couple sticker" 
                         style={{ 
                             maxWidth: '100%', 
