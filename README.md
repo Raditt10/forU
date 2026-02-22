@@ -27,8 +27,8 @@ Selain itu, setiap interaksi target (apakah mereka berhasil menekan "Yes" dan be
       </td>
     </tr>
     <tr>
-      <td align="center" style="padding-top: 10px;"><b>Halaman Awal (Landing Page)</b></td>
-      <td align="center" style="padding-top: 10px;"><b>Halaman Interaktif (Hasil Gombalan)</b></td>
+      <td align="center" style="padding-top: 10px;"><b>Starting Page</b></td>
+      <td align="center" style="padding-top: 10px;"><b>Page Gombal</b></td>
     </tr>
   </table>
 </p>
