@@ -36,7 +36,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
         if (noCount >= 3) return "TAPI BOONG HEHEHE";
         if (noCount > 0) return messages[noCount - 1].text;
         
-        return targetName ? `${targetName}, apakah kamujh sayang ak?` : "Apakah kamujh sayang ak?";
+        return targetName ? `${targetName}, apakah kamu bersedia jadi kekasihku?` : "Apakah kamu bersedia jadi kekasihku?";
     };
 
     const getImageSrc = () => {
