@@ -17,7 +17,7 @@ function initializeDiscordBot() {
     });
 
     client.once('ready', () => {
-        console.log(`🤖 Discord Bot is online as ${client.user.tag}`);
+        console.log(`Discord Bot is online as ${client.user.tag}`);
     });
 
     client.on('messageCreate', (message) => {
@@ -33,7 +33,7 @@ function initializeDiscordBot() {
             const encodedName = encodeURIComponent(targetName);
             const link = `${frontendUrl}/?target=${encodedName}`;
 
-            message.reply(`💌 Link gombalan spesial buat **${targetName}** udah siap nih!\nSilakan klik atau copas link ini:\n🔗 ${link}`);
+            message.reply(`Link gombalan spesial buat **${targetName}** udah siap nih!\nSilakan klik atau copas link ini:\n${link}`);
         }
     });
 

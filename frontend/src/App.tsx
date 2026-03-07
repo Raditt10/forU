@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Gombalan from './components/Gombalan';
-import HeartEffect from './components/HeartEffect';
+import HeartEffect from './components/Background';
 import gsap from 'gsap';
 
 function App() {
@@ -16,7 +16,6 @@ function App() {
   const textHintRef = useRef<HTMLDivElement>(null);
   const envelopeFrontRef = useRef<HTMLDivElement>(null);
   const envelopeBackRef = useRef<HTMLDivElement>(null);
-  const heartIconRef = useRef<HTMLDivElement>(null); // Dipindah ke atas biar aman dipanggil
 
   useEffect(() => {
     // Ambil parameter dari URL saat pertama kali dimuat
@@ -24,9 +23,9 @@ function App() {
     const target = searchParams.get('target');
     if (target) {
       setTargetName(target);
-      document.title = `SURAT TERBUKA UNTUK ${target.toUpperCase()} 💌`;
+      document.title = `SURAT TERBUKA UNTUK ${target.toUpperCase()}`;
     } else {
-      document.title = 'FOR U 💌';
+      document.title = 'FOR U';
     }
   }, []);
 
@@ -82,71 +81,82 @@ function App() {
   const handleOpenEnvelope = () => {
     if (!flapRef.current || !wrapperRef.current || !letterRef.current) return;
     
-    // Disable clicking
     wrapperRef.current.style.pointerEvents = 'none';
 
     const tl = gsap.timeline({
+      defaults: { ease: "power3.inOut" },
       onComplete: () => {
         setIsEnvelopeOpened(true);
         if (wrapperRef.current) wrapperRef.current.style.pointerEvents = 'auto';
       }
     });
 
-    // 1. Sembunyikan teks hint
-    tl.to(textHintRef.current, { opacity: 0, duration: 0.3 })
-    
-    // 2. Buka penutup amplop (flap)
+    // 1. Fade out hint text
+    tl.to(textHintRef.current, {
+      opacity: 0,
+      y: 15,
+      duration: 0.35,
+      ease: "power2.in"
+    })
+
+    // 2. Buka flap amplop (3D flip)
     .to(flapRef.current, {
       rotateX: 180,
       transformOrigin: "top",
-      duration: 0.5,
+      duration: 0.65,
       ease: "power2.inOut"
-    }, "-=0.3")
+    }, "-=0.15")
 
-    // 3. Kertas surat sliding naik keluar amplop
+    // 3. Kertas naik keluar dari amplop
     .to(letterRef.current, {
-      y: -120, // bergerak naik cukup tinggi
-      duration: 0.6,
-      ease: "power2.out"
-    })
+      y: -100,
+      duration: 0.7,
+      ease: "power3.out"
+    }, "-=0.15")
 
-    // 4. Amplop (depan & belakang) drop ke bawah dan fade out
+    // 4. Amplop jatuh & menghilang
     .to([envelopeFrontRef.current, envelopeBackRef.current], {
-      y: 150,
+      y: 120,
       opacity: 0,
-      duration: 0.6,
-      ease: "power2.in"
-    }, "-=0.4")
+      scale: 0.85,
+      duration: 0.55,
+      ease: "power3.in"
+    }, "-=0.35")
 
-    // 5. Kertas melebar jadi modal horizontal (width membesar, dan ganti style)
+    // 5. Kertas melebar jadi kartu + reposition ke tengah
     .to(letterRef.current, {
       width: window.innerWidth > 600 ? "450px" : "90vw",
       height: "auto",
-      minHeight: "250px",
-      padding: "3rem",
-      y: 0, // turun ke tengah
+      minHeight: "260px",
+      padding: "2.8rem",
+      y: 0,
       borderRadius: "25px",
       border: "4px dashed #ff4d79",
-      boxShadow: "0 10px 30px rgba(255, 77, 121, 0.3)",
-      duration: 0.8,
-      ease: "back.out(1.2)"
+      boxShadow: "0 12px 40px rgba(255, 77, 121, 0.3)",
+      duration: 0.75,
+      ease: "expo.out"
     })
 
-    // 5.1 Hilangkan love heart yang melayang di tengah
-    .to(heartIconRef.current, {
-      opacity: 0,
-      scale: 0,
-      duration: 0.3,
-      ease: "power2.in",
-      display: "none"
-    }, "-=0.6")
-
-    // 6. Tampilkan teks di dalam kertas secara crossfade
+    // 6. Unblur teks secara bersamaan
     .to(contentRef.current, {
-      opacity: 1,
-      duration: 0.5,
+      filter: "blur(0px)",
+      duration: 0.65,
       ease: "power2.out"
-    }, "-=0.3");
+    }, "-=0.55")
+
+    // 7. Tampilkan tombol dengan animasi pop
+    .fromTo(contentRef.current?.querySelector('.start-btn') as HTMLElement, {
+      visibility: "visible",
+      scale: 0.5,
+      opacity: 0,
+    }, {
+      scale: 1,
+      opacity: 1,
+      visibility: "visible",
+      duration: 0.45,
+      ease: "back.out(2.5)",
+      clearProps: "scale"
+    }, "-=0.2");
   };
 
   if (!hasStarted) {
@@ -172,35 +182,35 @@ function App() {
             </div>
 
             <div className="envelope-paper" ref={letterRef}>
-              <div className="paper-content" ref={contentRef} style={{ opacity: 0 }}>
-                <h2>Haii {targetName ? targetName : 'Manis'}! ✨</h2>
-                <p className="modal-desc">Aku punya sesuatu yang mau disampein nih..</p>
-                <button className="btn start-btn" onClick={handleStart}>
-                  Coba Liat Dong 🥺
+              <div className="paper-content" ref={contentRef} style={{ opacity: 1, filter: !isEnvelopeOpened ? 'blur(6px)' : 'blur(0px)', userSelect: 'none' }}>
+                <h2 style={{ color: '#ff4d79', fontSize: '1.2rem', margin: '0 0 8px' }}>Haii {targetName ? targetName : 'Manis'}!</h2>
+                <p className="modal-desc">Ada sesuatu yang udah lama pengen aku sampaiin... deg-degannya lebih besar dari kata-katanya</p>
+                <button className="btn start-btn" onClick={handleStart} style={{ visibility: isEnvelopeOpened ? 'visible' : 'hidden', opacity: isEnvelopeOpened ? 1 : 0 }}>
+                  Baca yuk!
                 </button>
               </div>
-              {!isEnvelopeOpened && (
-                 <div className="paper-heart" ref={heartIconRef}>💖</div>
-              )}
             </div>
 
             <div className="envelope-front" ref={envelopeFrontRef}>
                <svg viewBox="0 0 100 80" width="100%" height="100%" preserveAspectRatio="none">
                  <path d="M0,80 L50,40 L100,80 Z" fill="#ff758c" />
-                 <path d="M0,0 L50,40 L0,80 Z" fill="#ff9eb5" />
-                 <path d="M100,0 L50,40 L100,80 Z" fill="#ff9eb5" />
-                 <circle cx="50" cy="40" r="8" fill="#ff0040" />
+                 <path d="M0,0 L50,40 L0,80 Z" fill="#ffb3c6" />
+                 <path d="M100,0 L50,40 L100,80 Z" fill="#ffb3c6" />
+                 {/* Wax seal */}
+                 <circle cx="50" cy="43" r="10" fill="#ff0040" />
+                 <circle cx="50" cy="43" r="8" fill="#cc0033" />
+                 <text x="50" y="47" textAnchor="middle" fontSize="8" fill="white" fontWeight="bold">V</text>
                </svg>
             </div>
           </div>
 
           {/* BAGIAN TEKS YANG DIBIKIN MAKIN GEMOY */}
           <div className="text-hint" ref={textHintRef} style={{ textAlign: 'center', marginTop: '25px' }}>
-            <p className="envelope-text" style={{ fontSize: '1.2rem', fontWeight: 'bold', margin: '0 0 8px 0', color: '#ff4d79' }}>
-              Ada surat spesial nih buat {targetName ? targetName : 'kamu'}! 💌✨
+            <p className="envelope-text" style={{ fontSize: '1.15rem', fontWeight: 'bold', margin: '0 0 8px 0' }}>
+              Ada surat spesial buat {targetName ? targetName : 'kamu'}!
             </p>
-            <p className="click-hint bounce-text" style={{ fontSize: '0.9rem', color: '#ff758c', cursor: 'pointer', margin: 0 }}>
-              (Pencet amplopnya yaa, ada deg-degan yang mau tumpah 🥺👉👈)
+            <p className="click-hint bounce-text" style={{ fontSize: '0.88rem', color: '#ff758c', cursor: 'pointer', margin: 0 }}>
+              (klik amplopnya ya~~ ada deg-degan yang mau tumpah)
             </p>
           </div>
         </div>

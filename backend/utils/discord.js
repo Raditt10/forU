@@ -12,9 +12,9 @@ async function sendDiscordNotification(data) {
     
     let message = '';
     if (success) {
-        message = `🎉 **Misi Berhasil!**\nTarget **${targetName || 'Seseorang'}** akhirnya bilang YES setelah **${noClicks}** kali nolak!`;
+        message = `**Misi Berhasil!**\nTarget **${targetName || 'Seseorang'}** akhirnya bilang YES setelah **${noClicks}** kali nolak!`;
     } else {
-         message = `👀 **Update Gombalan:**\nTarget **${targetName || 'Seseorang'}** udah neken NO **${noClicks}** kali dan kabur!`;
+         message = `**Update Gombalan:**\nTarget **${targetName || 'Seseorang'}** udah neken NO **${noClicks}** kali dan kabur!`;
     }
 
     try {
