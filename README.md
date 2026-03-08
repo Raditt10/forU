@@ -21,19 +21,19 @@ Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan 
       <td align="center">
         <img src="./screenshot/landscape1.png" width="300" style="border-radius: 8px;" />
         <br/>
-        <sub>Tampilan Amplop</sub>
+        <sub>Tampilan Desktop ( Halaman utama )</sub>
       </td>
       <td align="center">
         <img src="./screenshot/landscape2.png" width="300" style="border-radius: 8px;" />
         <br/>
-        <sub>Tampilan Countdown</sub>
+        <sub>Tampilan Desktop ( Halaman target )</sub>
       </td>
     </tr>
     <tr>
       <td colspan="2" align="center">
         <img src="./screenshot/potrait.png" width="200" style="border-radius: 8px;" />
         <br/>
-        <sub>Tampilan Mobile Portrait</sub>
+        <sub>Tampilan Mobile ( Halaman utama )</sub>
       </td>
     </tr>
   </table>
