@@ -7,35 +7,21 @@
   <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" />
 </p>
 
-**forU (Buat Kamu)** adalah web interaktif untuk menyatakan perasaan secara kreatif dan romantis! Kirim link spesial lewat Discord atau langsung, dan biarkan animasi amplop, countdown dramatis, kartu gombalan, serta tombol "gamau" yang lari-larian membantu kamu nembak doi.
+**forU (Buat Kamu)** adalah web interaktif untuk nembak doi secara kreatif! Kirim link spesial lewat Discord atau langsung, lengkap dengan animasi amplop, countdown, dan tombol "gamau" yang lari-larian.
 
-Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan notifikasi otomatis masuk ke Discord kamu secara real-time! 💖
+Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan notifikasi otomatis masuk ke Discord kamu! 💖
 
 ---
 
 ## 📸 Preview
 
 <div align="center">
-  <table style="border: none; border-collapse: collapse; display: inline-table;">
-    <tr style="border: none;">
-      <td style="border: none; padding: 5px;">
-        <img src="./screenshot/Screenshot%202026-03-08%20091646.png" alt="Envelope & Countdown" width="380px" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-      </td>
-      <td style="border: none; padding: 5px;">
-        <img src="./screenshot/Screenshot%202026-03-08%20091743.png" alt="Accepted / Jadian" width="380px" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-      </td>
-    </tr>
-  </table>
+  <img src="./screenshot/Screenshot%202026-03-08%20091646.png" width="380" style="border-radius: 8px; margin: 5px;" />
+  <img src="./screenshot/Screenshot%202026-03-08%20091743.png" width="380" style="border-radius: 8px; margin: 5px;" />
+  
+  <br/>
 
-  <br>
-
-  <table style="border: none; border-collapse: collapse; display: inline-table; margin-top: 10px;">
-    <tr style="border: none;">
-      <td style="border: none; padding: 5px;">
-        <img src="./screenshot/Screenshot%202026-03-08%20091702.png" alt="Kartu Gombalan" width="260px" style="border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.4);">
-      </td>
-    </tr>
-  </table>
+  <img src="./screenshot/Screenshot%202026-03-08%20091702.png" width="240" style="border-radius: 8px; margin-top: 10px;" />
 </div>
 
 ---
@@ -43,62 +29,53 @@ Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan 
 ## ✨ Fitur Utama
 
 ### 🎬 Pengalaman Interaktif
-* **Animasi Amplop** — Klik amplop untuk membukanya, reveal pesan dengan animasi GSAP yang smooth.
-* **Countdown Dramatis** — Efek hitung mundur 3… 2… 1… sebelum masuk ke inti pesan.
-* **Tombol "gamau" Kabur** — Tombol bergerak menghindar (runaway button) saat coba diklik, bikin doi gemes!
-* **Confetti & Lagu** — Auto-play lagu romantis (`somebody_pleasure.mp3`) dan hujan confetti saat diterima.
+* **Animasi Amplop** — Klik amplop untuk reveal pesan dengan animasi GSAP smooth.
+* **Countdown Dramatis** — Hitung mundur 3… 2… 1… sebelum memunculkan pesan inti.
+* **Tombol "gamau" Kabur** — Tombol bergerak menghindar (transform-based) saat coba diklik.
+* **Confetti & Lagu** — Efek selebrasi otomatis saat status berubah jadi "Accepted".
 
 ### 🎨 Visual & Audio
 * **Heart Effect** — Animasi hujan hati di background untuk suasana romantis.
-* **Responsive Design** — Tampilan tetap cantik di HP maupun Desktop.
-* **Audio Crossfade** — Transisi musik yang halus saat status berubah menjadi "Accepted".
+* **Background Music** — Musik otomatis dengan transisi crossfade ke lagu penerimaan.
+* **Responsive** — Tampilan optimal di perangkat mobile maupun desktop.
 
-### ⚙️ Backend & Discord Integrasi
-* **Discord Bot** — Command `!tembak NamaDia` untuk generate link instan.
-* **Real-time Webhook** — Notifikasi langsung ke server Discord kamu saat jawaban diklik.
+### ⚙️ Backend & Discord
+* **Discord Bot** — Command `!tembak` atau `!gombal` untuk generate link spesial secara otomatis.
+* **Discord Webhook** — Notifikasi real-time ke server saat doi klik "IYA mau!".
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-| Tech | Versi | Deskripsi |
-| :--- | :--- | :--- |
-| **React** | 19 | UI Framework |
-| **Vite** | 7 | Build Tool |
-| **TypeScript** | 5.9 | Type Safety |
-| **GSAP** | 3.14 | Animation Engine |
+| Tech | Versi |
+| :--- | :--- |
+| **React** | 19 |
+| **Vite** | 7 |
+| **TypeScript** | 5.9 |
+| **GSAP** | 3.14 |
 
 ### Backend
 | Tech | Deskripsi |
 | :--- | :--- |
-| **Node.js** | Runtime Environment |
-| **Express.js 5** | Web Framework |
-| **Discord.js** | Bot Integration |
+| **Node.js** | LTS Version |
+| **Express.js** | Version 5 |
+| **Discord.js** | Version 14 |
 
 ---
 
-## 🚀 Cara Instalasi
+## 🚀 Instalasi & Setup
 
-### 1. Clone Repository
-```bash
-git clone [https://github.com/username/forU.git](https://github.com/username/forU.git)
-cd forU
-
-```
-
-### 2. Setup Backend
-
+### 1. Backend
 ```bash
 cd backend
 npm install
-# Buat file .env dan masukkan:
-# PORT, DISCORD_BOT_TOKEN, DISCORD_WEBHOOK_URL, FRONTEND_URL
+# Konfigurasi .env (PORT, DISCORD_BOT_TOKEN, DISCORD_WEBHOOK_URL, FRONTEND_URL)
 node server.js
 
 ```
 
-### 3. Setup Frontend
+### 2. Frontend
 
 ```bash
 cd frontend
@@ -111,6 +88,6 @@ npm run dev
 
 ## 📄 Lisensi
 
-Project ini bebas digunakan untuk keperluan hiburan dan personal. Dibuat dengan ❤️ oleh **Kanjirouu**.
+Project ini dibuat untuk hiburan dan personal. Bebas dimodifikasi.
 
-```
+Code with ❤️ by **Kanjirouu**.
