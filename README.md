@@ -19,7 +19,7 @@ Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan 
   <table>
     <tr>
       <td align="center">
-        <img src="./screenshot/landscape1.png.png" width="300" style="border-radius: 8px;" />
+        <img src="./screenshot/landscape1.png" width="300" style="border-radius: 8px;" />
         <br/>
         <sub>Tampilan Amplop</sub>
       </td>
