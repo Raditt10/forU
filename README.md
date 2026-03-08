@@ -1,77 +1,76 @@
-﻿# 💌 forU - Buat Kamu (Interactive Digital Gift)
+﻿# 💌 forU - Buat Kamu (Interactive Love Confession Web)
 
-![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
+![React](https://img.shields.io/badge/React_19-20232A?style=flat&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=flat&logo=greensock&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white)
-![Discord.js](https://img.shields.io/badge/Discord.js-5865F2?style=flat&logo=discord&logoColor=white)
-![GSAP](https://img.shields.io/badge/GSAP-GreenSock-88CE02?style=flat&logo=greensock&logoColor=white&labelColor=323330)
+![Express.js](https://img.shields.io/badge/Express.js_5-000000?style=flat&logo=express&logoColor=white)
+![Discord.js](https://img.shields.io/badge/Discord.js_v14-5865F2?style=flat&logo=discord&logoColor=white)
 
-**forU (Buat Kamu)** adalah sebuah aplikasi web full-stack interaktif yang dirancang khusus untuk memberikan pesan romantis, gombalan, atau kejutan digital kepada seseorang. Aplikasi ini sangat interaktif, menghadirkan efek visual, musik latar otomatis, dan tombol "No" yang bisa menghindar saat diklik!
+**forU (Buat Kamu)** adalah web interaktif untuk nembak doi secara kreatif dan romantis! Kirim link spesial lewat Discord atau langsung, dan biarkan animasi amplop, countdown dramatis, kartu gombalan, serta tombol "gamau" yang kabur-kaburan membantu kamu menyatakan perasaan.
 
-Selain itu, setiap interaksi target (apakah mereka berhasil menekan "Yes" dan berapa kali mereka mencoba menekan "No") akan dicatat ke dalam database dan langsung dikirimkan ke **Discord** kamu secara _real-time_!
+Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan notifikasi otomatis masuk ke Discord kamu! 💖
 
 ---
 
-## 📸 Preview Antarmuka
+## 📸 Preview
 
 <p align="center">
-  <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: separate; border-spacing: 15px;">
-    <tr>
-      <td align="center" width="50%">
-        <img src="./screenshot/menu.png" alt="Landing Page" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-      </td>
-      <td align="center" width="50%">
-        <img src="./screenshot/review_hasil.png" alt="Halaman Surat" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-      </td>
-    </tr>
-    <tr>
-      <td align="center" style="padding-top: 10px;"><b>Starting Page</b></td>
-      <td align="center" style="padding-top: 10px;"><b>Page Gombal</b></td>
-    </tr>
-  </table>
+  <img src="./screenshot/Screenshot%202026-03-08%20091646.png" alt="Envelope & Countdown" width="30%" style="border-radius: 12px; margin: 8px;">
+  <img src="./screenshot/Screenshot%202026-03-08%20091702.png" alt="Kartu Gombalan" width="30%" style="border-radius: 12px; margin: 8px;">
+  <img src="./screenshot/Screenshot%202026-03-08%20091743.png" alt="Accepted / Jadian" width="30%" style="border-radius: 12px; margin: 8px;">
 </p>
 
 ---
 
 ## ✨ Fitur Utama
 
-### 🎨 Frontend (UI/UX)
+### 🎬 Pengalaman Interaktif
 
-- **Interactive "No" Button**: Tombol "No" akan kabur/menghindar secara acak apabila pengguna mencoba mengekliknya lebih dari 3 kali.
-- **Autoplay Background Music**: Musik latar romantis yang berjalan otomatis setelah interaksi pertama pengguna.
-- **Dynamic Images & Text**: Gambar GIF romantis dan teks gombalan yang berubah-ubah tergantung respon target.
-- **Heart Effect Animation**: Efek animasi hujan hati (love) berjatuhan di latar belakang.
-- **Responsive Design**: Mendukung tampilan mobile (HP) maupun desktop dengan baik.
-- **URL Parameter Parsing**: Bisa merender nama target secara dinamis via URL (Contoh: `/?target=Ayang`).
+- **Animasi Amplop** — Klik amplop untuk membukanya, reveal pesan dengan animasi GSAP (~4 detik)
+- **Countdown Dramatis** — Hitung mundur 3… 2… 1… lalu muncul teks *"janji, gaakan kaget ya {Nama}"*
+- **Tombol "gamau" Kabur** — Setelah 3x klik, tombol bergerak menghindar (transform-based, tetap di dalam kartu!)
+- **Label Progresif** — Tombol berubah: "gamau" → "gamau ihh" → "pokoknya gamau" → dst
+- **Confetti & Lagu** — Kalau doi tekan **"IYA mau!"**, confetti bertebaran + lagu romantis otomatis dengan crossfade
+- **Kartu Jadian** — Muncul kartu tanggal jadian & kartu couple setelah diterima
 
-### ⚙️ Backend & Integrasi
+### 🎨 Visual & Audio
 
-- **Real-time Discord Notification**: Notifikasi otomatis ke server Discord melalui Webhook/Bot setiap kali target mengklik "Yes".
-- **Interaction Data Logging**: Menyimpan log interaksi pengguna ke dalam database MongoDB.
-- **CORS Enabled**: Mendukung _Cross-Origin Resource Sharing_ antara frontend dan backend.
+- **Heart Effect** — Animasi hujan hati di background
+- **GSAP Entrance** — Staggered reveal: kartu → judul → gambar → tombol
+- **Background Music** — Musik latar otomatis dengan crossfade ke lagu penerimaan (`somebody_pleasure.mp3`)
+- **Responsive** — Optimal di HP maupun desktop
+- **Tombol Info "?"** — Info cara pakai web, tampil di semua halaman
+
+### ⚙️ Backend & Discord
+
+- **Discord Bot** — Command `!tembak NamaDia` atau `!gombal NamaDia` untuk generate link spesial
+- **Discord Webhook** — Notifikasi real-time ke server saat doi klik "IYA mau!"
+- **URL Parameter** — Bisa langsung buat link manual: `/?target=NamaDia`
 
 ---
 
 ## 🛠️ Tech Stack
 
-Project ini dikembangkan menggunakan teknologi modern:
-
 ### Frontend
 
-- **Framework**: React 19
-- **Build Tool**: Vite
-- **Language**: TypeScript
-- **Styling**: Vanilla CSS3 (Custom Styles & Animations)
+| Tech | Versi |
+|------|-------|
+| React | 19 |
+| Vite | 7 |
+| TypeScript | 5.9 |
+| GSAP | 3.14 |
+| canvas-confetti | 1.9 |
 
 ### Backend
 
-- **Runtime**: Node.js
-- **Framework**: Express.js 5
-- **Database**: MongoDB (dipadukan dengan Mongoose)
-- **Integration**: Discord.js v14 & node-fetch
+| Tech | Versi |
+|------|-------|
+| Node.js | LTS |
+| Express.js | 5 |
+| Discord.js | 14 |
+| dotenv | 17 |
 
 ---
 
@@ -79,111 +78,119 @@ Project ini dikembangkan menggunakan teknologi modern:
 
 ```text
 forU/
-├── backend/                  # REST API & Discord Bot Logic
-│   ├── models/               # Skema Database Mongoose (Interaction)
-│   ├── utils/                # Utility (Discord bot & Webhook API)
-│   ├── server.js             # Entry point backend
-│   ├── package.json          # Dependencies backend
-│   └── .env.example          # Contoh variabel environment backend
+├── backend/
+│   ├── utils/
+│   │   ├── discord.js          # Webhook notification ke Discord
+│   │   └── discordBot.js       # Bot handler (!tembak & !gombal)
+│   ├── server.js               # Entry point backend (Express)
+│   └── package.json
 │
-├── frontend/                 # Aplikasi Web React (UI)
+├── frontend/
+│   ├── public/
+│   │   └── somebody_pleasure.mp3  # Lagu penerimaan (crossfade)
 │   ├── src/
-│   │   ├── assets/           # Gambar, musik, atau file statis lainnya
-│   │   ├── components/       # Reusable components (Gombalan.tsx, HeartEffect.tsx)
-│   │   ├── App.tsx           # Main application logic
-│   │   ├── main.tsx          # Entry point aplikasi React
-│   │   └── App.css & index.css # Styling utama
-│   ├── index.html            # Template HTML
-│   ├── vite.config.ts        # Konfigurasi Vite bundler
-│   └── package.json          # Dependencies frontend
-└── README.md                 # Dokumentasi project (File ini)
+│   │   ├── components/
+│   │   │   ├── Background.tsx     # Animated background
+│   │   │   ├── Gombalan.tsx       # Kartu utama (YES/NO, runaway, acceptance)
+│   │   │   └── HeartEffect.tsx    # Efek hujan hati
+│   │   ├── App.tsx                # Root (envelope, countdown, tech info)
+│   │   ├── App.css & index.css    # Styling & animasi
+│   │   └── main.tsx               # Entry point React
+│   ├── vite.config.ts
+│   └── package.json
+│
+├── screenshot/                    # Screenshot preview
+└── README.md
 ```
 
 ---
 
-## ⚙️ Cara Instalasi & Menjalankan Project Lokal
+## ⚙️ Cara Instalasi & Menjalankan
 
-Karena project ini terdiri dari **Frontend** dan **Backend**, kamu perlu menjalankan keduanya secara terpisah.
+### 1. Persiapan
 
-### 1. Persiapan Awal
-
-Pastikan kamu telah menginstal:
-
-- [Node.js](https://nodejs.org/) (Versi LTS terbaru)
-- [MongoDB](https://www.mongodb.com/try/download/community) (Lokal atau MongoDB Atlas)
-- Token Bot Discord atau Webhook URL (untuk fitur notifikasi)
+- [Node.js](https://nodejs.org/) (LTS)
+- Token Bot Discord dan/atau Webhook URL
 
 ### 2. Setup Backend
 
 ```bash
-# Pindah ke direktori backend
 cd backend
-
-# Install semua dependencies
 npm install
-
-# Copy pengaturan environment
-cp .env.example .env
 ```
 
-**Konfigurasi Variabel Environment (`backend/.env`):**
-Buka file `.env` dan sesuaikan nilainya:
+Buat file `.env` di folder `backend/`:
 
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/forU
-DISCORD_WEBHOOK_URL=[https://discord.com/api/webhooks/](https://discord.com/api/webhooks/)...
-FRONTEND_URL=http://localhost:5173
+DISCORD_BOT_TOKEN=token_bot_kamu
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
+FRONTEND_URL=https://domain-kamu.com
+```
 
-Jalankan Server Backend:
+Jalankan:
+
 ```bash
-npm run dev
-# Atau
 node server.js
 ```
 
-_Backend akan berjalan di: `http://localhost:5000`_
+_Backend berjalan di `http://localhost:5000`_
 
 ### 3. Setup Frontend
 
-Buka terminal baru (_new terminal_), dan jalankan:
-
 ```bash
-# Balik ke direktori utama, lalu masuk ke frontend
 cd frontend
-
-# Install semua dependencies
 npm install
-
-# Jalankan server frontend
 npm run dev
 ```
 
-_Frontend akan berjalan di: `http://localhost:5173` (cek terminal Vite untuk URL pastinya)_
+_Frontend berjalan di `http://localhost:5173`_
 
 ---
 
-## 🚀 Dokumentasi Penggunaan
+## 🚀 Cara Penggunaan
 
-1. Buka browser dan arahkan ke alamat frontend (misal: `http://localhost:5173`).
-2. **Kustomisasi Halaman untuk Seseorang:**
-   Kamu dapat menambahkan nama target di akhir URL menggunakan parameter `target`.
-   Contoh: `http://localhost:5173/?target=Nadia`
-   Teks utama akan secara otomatis berubah menjadi: `"Nadia, apakah kamujh sayang ak?"`
-3. Begitu target berhasil mengklik tombol **"Yes"**, backend otomatis mencatat respons tersebut ke MongoDB dan ngirim pesan ke Discord kamu.
+### Via Discord Bot
+
+1. Ketik di channel yang ada bot-nya:
+   ```
+   !tembak NamaDia
+   ```
+   atau:
+   ```
+   !gombal NamaDia
+   ```
+2. Bot akan balas dengan link spesial.
+3. Kirim link tersebut ke doi (DM / WhatsApp / IG).
+
+### Via URL Manual
+
+Tambahin `?target=NamaDia` di belakang URL:
+
+```
+https://domain-kamu.com/?target=Sayang
+```
+
+### Alur yang Dilihat Doi
+
+1. 🎬 **Amplop** — Klik untuk buka
+2. ⏱️ **Countdown** — 3… 2… 1… + pesan hint
+3. 💕 **Kartu Gombalan** — Nama doi tampil, tombol "IYA mau!" dan "gamau"
+4. 😂 **Tombol Kabur** — "gamau" menghindar, label makin lucu
+5. 🎉 **Diterima!** — Confetti + lagu + kartu jadian muncul
+6. 📩 **Notifikasi Discord** — Kamu dapat notif di server!
 
 ---
 
 ## ☁️ Deployment
 
-- **Frontend** bisa di-host dengan mudah menggunakan **Vercel**, **Netlify**, atau **Cloudflare Pages** (menggunakan instruksi build `npm run build`).
-- **Backend** membutuhkan server Node.js atau VPS seperti **Render**, **Railway**, atau **Heroku**.
-- **Database** bisa di-hosting menggunakan layanan gratis seperti **MongoDB Atlas**.
+- **Frontend**: [Vercel](https://vercel.com), [Netlify](https://netlify.com), atau [Cloudflare Pages](https://pages.cloudflare.com) (`npm run build`)
+- **Backend**: [Render](https://render.com), [Railway](https://railway.app), atau VPS manapun
 
 ---
 
 ## 📄 Lisensi
 
-Project ini dibuat untuk tujuan pembelajaran, hiburan, dan memberi hadiah manis kepada seseorang. Bebas digunakan, dicloning, dan dimodifikasi sesukamu.
+Project ini dibuat untuk pembelajaran, hiburan, dan nembak doi. Bebas digunakan, di-clone, dan dimodifikasi sesukamu.
 
 _Code with ❤️ by Kanjirouu._

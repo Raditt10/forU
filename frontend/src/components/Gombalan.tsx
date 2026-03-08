@@ -12,7 +12,7 @@ const noMessages = [
         image: "https://i.pinimg.com/736x/90/73/a9/9073a9359bff531cd830ae7384752934.jpg"
     },
     {
-        text: "Oke oke... ini terakhir lho! Tombol NO tetap di sini kok",
+        text: "Oke oke... ini terakhir lho! Oke kalo masih no juga, aku anggap kamu emang gatau cara klik mau :(",
         image: "https://i.pinimg.com/736x/a6/43/f5/a643f5a40db387585b56bc767b66fddb.jpg"
     },
 ];
@@ -39,6 +39,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
     const titleRef    = useRef<HTMLHeadingElement>(null);
     const imageRef    = useRef<HTMLImageElement>(null);
     const buttonsRef  = useRef<HTMLDivElement>(null);
+    const acceptAudioRef = useRef<HTMLAudioElement | null>(null);
 
     const isMobile = window.innerWidth <= 768;
 
@@ -56,15 +57,15 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
             return runTexts[Math.min(noCount - noMessages.length - 1, runTexts.length - 1)];
         }
         return targetName
-            ? `${targetName}, mau jadi kekasih aku ga?`
-            : 'Mau jadi kekasih aku ga?';
+            ? `${targetName}, Kamu mau ngga jadi Pacarku?`
+            : 'Kamu mau ngga jadi Pacarku?';
     };
 
     const getNoLabel = () => {
-        if (noCount === 0) return 'No';
-        if (noCount === 1) return 'Tetap no...';
-        if (noCount === 2) return 'NO DONG!';
-        const runLabels = ['NO AJA', 'MASIH NO', 'NGGA MAU!!', 'NO TERUS', 'HAHAHA!!'];
+        if (noCount === 0) return 'gamau';
+        if (noCount === 1) return 'gamau ihh';
+        if (noCount === 2) return 'pokoknya gamau';
+        const runLabels = ['beneran gamau!!', 'gamau titik!', 'GAMAU DONG!!', 'udah deh gamau', 'hahaha gamau!!'];
         return runLabels[Math.min(noCount - RUN_AFTER, runLabels.length - 1)];
     };
 
@@ -86,10 +87,44 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
         setTimeout(() => setIsShaking(false), 600);
     };
 
+    /* ─── Audio crossfade helper ─── */
+    const crossfadeToAcceptSong = () => {
+        const bgMusic = document.getElementById('bgMusic') as HTMLAudioElement | null;
+
+        // Fade out background music
+        if (bgMusic && !bgMusic.paused) {
+            const fadeOut = setInterval(() => {
+                if (bgMusic.volume > 0.02) {
+                    bgMusic.volume = Math.max(0, bgMusic.volume - 0.02);
+                } else {
+                    bgMusic.pause();
+                    bgMusic.volume = 0;
+                    clearInterval(fadeOut);
+                }
+            }, 50);
+        }
+
+        // Fade in acceptance song
+        const audio = new Audio('/somebody_pleasure.mp3');
+        audio.volume = 0;
+        audio.loop = true;
+        acceptAudioRef.current = audio;
+
+        audio.play().then(() => {
+            let vol = 0;
+            const fadeIn = setInterval(() => {
+                vol = Math.min(vol + 0.01, 0.5);
+                audio.volume = vol;
+                if (vol >= 0.5) clearInterval(fadeIn);
+            }, 40);
+        }).catch(e => console.log('Accept audio blocked:', e));
+    };
+
     /* ─── Yes handler ─── */
     const handleYesClick = () => {
         setIsAccepted(true);
         onSuccess(noCount);
+        crossfadeToAcceptSong();
 
         const duration = 3000;
         const end = Date.now() + duration;
@@ -210,24 +245,24 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
 
         // 1. Card slides up + fades in
         tl.fromTo(containerRef.current,
-            { y: 60, opacity: 0, scale: 0.94, rotationX: 6 },
-            { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.85, clearProps: 'rotationX,scale' }
+            { y: 80, opacity: 0, scale: 0.92, rotationX: 8 },
+            { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 1.6, clearProps: 'rotationX,scale' }
         )
         // 2. Title drops in from above
         .fromTo(titleRef.current,
-            { y: -22, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.8)' },
-        '-=0.45')
+            { y: -30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9, ease: 'back.out(1.8)' },
+        '-=0.9')
         // 3. Image pops
         .fromTo(imageRef.current,
-            { scale: 0.8, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2)' },
-        '-=0.3')
+            { scale: 0.75, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 1.0, ease: 'back.out(1.6)' },
+        '-=0.5')
         // 4. Buttons slide up
         .fromTo(buttonsRef.current,
-            { y: 18, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.45, ease: 'back.out(1.5)' },
-        '-=0.25');
+            { y: 24, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.85, ease: 'back.out(1.5)' },
+        '-=0.45');
     }, []);
 
     /* ─── Render ─── */
@@ -251,7 +286,9 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
             {showDateCard ? (
                 /* ── TANGGAL JADIAN ── */
                 <>
-                    <div style={{ fontSize: '3rem', marginBottom: '10px', animation: 'heartbeat 1.4s infinite' }}>- - -</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '10px', animation: 'heartbeat 1.4s infinite', color: '#ff4d79', letterSpacing: '0.04em' }}>
+                        {targetName ? targetName : 'Kamu'}
+                    </div>
                     <h1 className="title" style={{ fontSize: isMobile ? '1.3rem' : '1.6rem', marginBottom: '8px', lineHeight: '1.4' }}>
                         TANGGAL JADIAN KITA!!
                     </h1>
@@ -277,7 +314,9 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
             ) : isOfficiallyCouple ? (
                 /* ── RESMI PACARAN ── */
                 <>
-                    <div style={{ fontSize: '2.8rem', marginBottom: '10px', animation: 'heartbeat 1.2s infinite' }}>--</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '10px', animation: 'heartbeat 1.2s infinite', color: '#ff4d79', letterSpacing: '0.04em' }}>
+                        {targetName ? targetName : 'Kamu'}
+                    </div>
                     <h1 className="title" style={{ fontSize: isMobile ? '1.2rem' : '1.5rem', marginBottom: '16px', animation: 'popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)', lineHeight: '1.4' }}>
                         KITA RESMI PACARAN YA {targetName ? targetName.toUpperCase() : 'KAMU'}!
                     </h1>
@@ -304,12 +343,6 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
                         style={{ maxWidth: '100%', maxHeight: '190px', borderRadius: '15px', objectFit: 'cover', display: 'block', margin: '0 auto 18px', transition: 'opacity 0.4s ease' }}
                     />
 
-                    {noCount >= 2 && !isAccepted && (
-                        <p style={{ color: '#ffb3c6', fontSize: '0.78rem', margin: '0 0 10px', animation: 'wiggle 1.5s ease-in-out infinite' }}>
-                            tombol YES makin gede tiap kamu pilih no loh
-                        </p>
-                    )}
-
                     {!isAccepted && (
                         <div ref={buttonsRef} className="buttons" style={{ display: 'flex', gap: '14px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginTop: '1rem' }}>
                             <button
@@ -328,7 +361,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
                                     boxShadow: '0 4px 20px rgba(255,77,121,0.5)',
                                 }}
                             >
-                                IYA!
+                                IYA mau!
                             </button>
 
                             <button
@@ -368,7 +401,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
 
                     {noCount > 0 && !isAccepted && (
                         <p style={{ color: '#ffccd5', fontSize: '0.75rem', marginTop: '10px', marginBottom: 0 }}>
-                            udah nyoba no sebanyak {noCount}x
+                            Kamu udah nyoba pencet tombol gamau sebanyak {noCount}x loh
                         </p>
                     )}
                 </>

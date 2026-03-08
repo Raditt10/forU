@@ -554,3 +554,19 @@ img:hover {
   100% { transform: scale(1); opacity: 1; filter: blur(0px); }
 }
 
+.countdown-hint {
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  font-weight: 700;
+  color: #ff4d79;
+  text-shadow: 0 2px 16px rgba(255, 77, 121, 0.35);
+  margin: 0;
+  padding: 0 1.5rem;
+  text-align: center;
+  animation: blurReveal 0.9s ease-out forwards;
+}
+
+@keyframes blurReveal {
+  0% { filter: blur(12px); opacity: 0; }
+  100% { filter: blur(0px); opacity: 1; }
+}
+

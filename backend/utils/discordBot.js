@@ -24,17 +24,31 @@ function initializeDiscordBot() {
         // Abaikan pesan dari bot sendiri agar tidak terjadi spam loop
         if (message.author.bot) return;
 
-        // Command: !gombal [Nama]
-        if (message.content.startsWith('!gombal ')) {
-            const targetName = message.content.replace('!gombal ', '').trim();
-            const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-            
-            // Encode nama agar aman di URL (misal Spasi menjadi %20)
-            const encodedName = encodeURIComponent(targetName);
-            const link = `${frontendUrl}/?target=${encodedName}`;
+        const content = message.content.trim();
+        const lowerContent = content.toLowerCase();
 
-            message.reply(`Link gombalan spesial buat **${targetName}** udah siap nih!\nSilakan klik atau copas link ini:\n${link}`);
+        // Support dua alias command supaya user tidak bingung
+        const isTembak = lowerContent.startsWith('!tembak');
+        const isGombal = lowerContent.startsWith('!gombal');
+        if (!isTembak && !isGombal) return;
+
+        const command = isTembak ? '!tembak' : '!gombal';
+        const targetName = content.slice(command.length).trim();
+
+        if (!targetName) {
+            message.reply(`Format command belum lengkap. Contoh: \`${command} NamaDia\``);
+            return;
         }
+
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
+        // Encode nama agar aman di URL (misal Spasi menjadi %20)
+        const encodedName = encodeURIComponent(targetName);
+        const link = `${frontendUrl}/?target=${encodedName}`;
+
+        message.reply(
+            `Link gombalan spesial buat **${targetName}** udah siap nih!\nSilakan klik atau copas link ini:\n${link}`
+        );
     });
 
     client.login(token).catch(err => {

@@ -8,6 +8,7 @@ function App() {
   const [countdown, setCountdown] = useState<number | null>(null);
   const [targetName, setTargetName] = useState<string | null>(null);
   const [isEnvelopeOpened, setIsEnvelopeOpened] = useState(false);
+  const [showHintText, setShowHintText] = useState(false);
 
   const flapRef = useRef<SVGPathElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -46,8 +47,9 @@ function App() {
       audio.play().catch(e => console.log('Audio autoplay prevented:', e));
     }
 
-    // Start 3-2-1 countdown
+    // Start 3-2-1 countdown, then swap "1" with hint text for 4s
     setCountdown(3);
+    setShowHintText(false);
     let count = 3;
     const interval = setInterval(() => {
       count -= 1;
@@ -55,8 +57,13 @@ function App() {
         setCountdown(count);
       } else {
         clearInterval(interval);
+        // Hide number, show hint text for 4 seconds
         setCountdown(null);
-        setHasStarted(true);
+        setShowHintText(true);
+        setTimeout(() => {
+          setShowHintText(false);
+          setHasStarted(true);
+        }, 4000);
       }
     }, 1000);
   };
@@ -159,19 +166,83 @@ function App() {
     }, "-=0.2");
   };
 
+  const techInfoButton = (
+    <div style={{
+      position: 'fixed',
+      top: '14px',
+      right: '16px',
+      zIndex: 99999,
+      textAlign: 'right',
+    }}>
+      <button
+        onClick={() => {
+          const el = document.getElementById('tech-info-panel');
+          if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }}
+        style={{
+          background: 'rgba(255,255,255,0.7)',
+          border: '2px solid rgba(255,77,121,0.3)',
+          borderRadius: '50%',
+          width: '32px',
+          height: '32px',
+          fontSize: '0.85rem',
+          cursor: 'pointer',
+          color: '#ff4d79',
+          fontWeight: 'bold',
+          backdropFilter: 'blur(6px)',
+          boxShadow: '0 2px 8px rgba(255,77,121,0.15)',
+        }}
+      >?</button>
+      <div
+        id="tech-info-panel"
+        style={{
+          display: 'none',
+          marginTop: '8px',
+          background: 'rgba(255,255,255,0.95)',
+          borderRadius: '14px',
+          padding: '14px 16px',
+          fontSize: '0.78rem',
+          color: '#555',
+          lineHeight: 1.6,
+          maxWidth: '260px',
+          textAlign: 'left',
+          boxShadow: '0 4px 20px rgba(255,77,121,0.18)',
+          border: '1.5px solid rgba(255,77,121,0.2)',
+          backdropFilter: 'blur(8px)',
+        }}
+      >
+        <p style={{ margin: '0 0 6px', fontWeight: 700, color: '#ff4d79' }}>Mau buat pesan ini juga?</p>
+        <p style={{ margin: '0 0 8px' }}>
+          Tinggal tambahin <code style={{ background: '#fff0f5', padding: '1px 5px', borderRadius: '4px', color: '#e91e8c' }}>?target=NamaDia</code> di akhir URL. Atau ngga kamu bisa join server Discord yang udah tersedia Bot nya! <code style={{ background: '#fff0f5', padding: '1px 5px', borderRadius: '4px', color: '#e91e8c' }}>https://discord.gg/zJqZXKHn</code>
+        </p>
+        <p style={{ margin: '0 0 4px', fontSize: '0.72rem', color: '#999' }}>Contoh:</p>
+        <code style={{ background: '#fff0f5', padding: '3px 7px', borderRadius: '6px', fontSize: '0.7rem', color: '#e91e8c', wordBreak: 'break-all', display: 'block' }}>
+          {window.location.origin}/?target=Sayang
+        </code>
+      </div>
+    </div>
+  );
+
   if (!hasStarted) {
     return (
       <div className="start-screen">
         <HeartEffect />
+        {techInfoButton}
         
         {/* Countdown Overlay */}
-        {countdown !== null && (
+        {(countdown !== null || showHintText) && (
           <div className="countdown-overlay">
-            <h1 className="countdown-number" key={countdown}>{countdown}</h1>
+            {showHintText ? (
+              <p className="countdown-hint">
+                janji, gaakan kaget ya {targetName ? targetName : 'kamu'}
+              </p>
+            ) : (
+              <h1 className="countdown-number" key={countdown}>{countdown}</h1>
+            )}
           </div>
         )}
 
-        <div className="envelope-scene" style={{ opacity: countdown !== null ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: countdown !== null ? 'none' : 'auto' }}>
+        <div className="envelope-scene" style={{ opacity: (countdown !== null || showHintText) ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: (countdown !== null || showHintText) ? 'none' : 'auto' }}>
           <div className="envelope-container" ref={wrapperRef} onClick={!isEnvelopeOpened && countdown === null ? handleOpenEnvelope : undefined}>
             
             <div className="envelope-back" ref={envelopeBackRef}>
@@ -207,10 +278,10 @@ function App() {
           {/* BAGIAN TEKS YANG DIBIKIN MAKIN GEMOY */}
           <div className="text-hint" ref={textHintRef} style={{ textAlign: 'center', marginTop: '25px' }}>
             <p className="envelope-text" style={{ fontSize: '1.15rem', fontWeight: 'bold', margin: '0 0 8px 0' }}>
-              Ada surat spesial buat {targetName ? targetName : 'kamu'}!
+              Ada surat spesial buat kamu nih {targetName ? targetName : 'kamu'}!
             </p>
             <p className="click-hint bounce-text" style={{ fontSize: '0.88rem', color: '#ff758c', cursor: 'pointer', margin: 0 }}>
-              (klik amplopnya ya~~ ada deg-degan yang mau tumpah)
+              (klik amplopnya ya {targetName ? targetName : 'kamu'} plisss!)
             </p>
           </div>
         </div>
@@ -225,6 +296,8 @@ function App() {
           <source src="https://media-hosting.imagekit.io//57d9b82542f24b31/wannabeyours.mp4?Expires=1834834240&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=fLWj0s-DFN0BYhACzcL2Vt6ns3P8OmnzOirGVSK1ntGY0QYL0c7qPjnfzsffd9Fz9SIj71ykx1RLCoDfTwvwTMBGnRQmkpfuTMp5ooR3SNK3Ql-9KF254A2SyHAzKUGdd~v7NsMUpUILrykwbM-B-hU0C31HZrhgvLd4-4~wk7xdS-TZ~pgfHGWuwqZR3-ya1adDQQ6hLAcAiRPQsy2H~4b4lbhdbXSnCdWjCuxb7zMHdIwEqJk3vwvyqHhoY4-HNtlTJXoCj54FPpqSaLBrcCkNsz-d3oUxUztdeYggJVROeUvEiaf1nZ5IlQdm0vrJzbtE93zAZnXHfEE26VZlzg__" type="video/mp4" />
       </audio>
       <HeartEffect />
+      {techInfoButton}
+
       <Gombalan targetName={targetName} onSuccess={handleSuccess} />
     </>
   );
