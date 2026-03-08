@@ -102,4 +102,4 @@ npm run dev
 
 Project ini dibuat untuk hiburan dan personal. Bebas dimodifikasi.
 
-Code with ❤️ by **Kanjirouu**.
+_© 2025 [Raditt10](https://github.com/Raditt10)_
