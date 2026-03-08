@@ -16,11 +16,14 @@ Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan 
 
 ## 📸 Preview
 
-<p align="center">
-  <img src="./screenshot/Screenshot%202026-03-08%20091646.png" alt="Envelope & Countdown" width="30%" style="border-radius: 12px; margin: 8px;">
-  <img src="./screenshot/Screenshot%202026-03-08%20091702.png" alt="Kartu Gombalan" width="30%" style="border-radius: 12px; margin: 8px;">
-  <img src="./screenshot/Screenshot%202026-03-08%20091743.png" alt="Accepted / Jadian" width="30%" style="border-radius: 12px; margin: 8px;">
-</p>
+<div align="center">
+  <img src="./screenshot/Screenshot%202026-03-08%20091646.png" alt="Envelope & Countdown" width="45%" style="border-radius: 8px; margin: 5px;">
+  <img src="./screenshot/Screenshot%202026-03-08%20091743.png" alt="Accepted / Jadian" width="45%" style="border-radius: 8px; margin: 5px;">
+  
+  <br>
+
+  <img src="./screenshot/Screenshot%202026-03-08%20091702.png" alt="Kartu Gombalan" width="28%" style="border-radius: 8px; margin-top: 10px;">
+</div>
 
 ---
 
