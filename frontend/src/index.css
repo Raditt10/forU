@@ -378,10 +378,7 @@ img:hover {
 }
 
 .running {
-  position: fixed !important; /* Force position fixed on iOS */
-  transform: translate3d(0, 0, 0); /* Enable hardware acceleration */
-  -webkit-transform: translate3d(0, 0, 0);
-  will-change: transform, left, top; /* Optimize animations */
+  will-change: transform;
   touch-action: none;
   z-index: 9999 !important;
   opacity: 1 !important;

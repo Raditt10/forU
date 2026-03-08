@@ -12,7 +12,7 @@ const noMessages = [
         image: "https://i.pinimg.com/736x/90/73/a9/9073a9359bff531cd830ae7384752934.jpg"
     },
     {
-        text: "Oke oke... ini terakhir lho! Setelah ini tombolnya kabur",
+        text: "Oke oke... ini terakhir lho! Tombol NO tetap di sini kok",
         image: "https://i.pinimg.com/736x/a6/43/f5/a643f5a40db387585b56bc767b66fddb.jpg"
     },
 ];
@@ -32,6 +32,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
     const [showDateCard, setShowDateCard] = useState(false);
     const [jadianDate, setJadianDate] = useState('');
     const [isShaking, setIsShaking] = useState(false);
+    const [noBtnOffset, setNoBtnOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
     const noBtnRef = useRef<HTMLButtonElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -47,8 +48,8 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
         if (noCount > 0 && noCount <= noMessages.length) return noMessages[noCount - 1].text;
         if (noCount > noMessages.length) {
             const runTexts = [
-                'Itu tombolnya lagi kabur, tangkep dong!',
-                'Hahaha ngga bisa dikejar kan?',
+                'Masih yakin pilih NO terus?',
+                'Aku tetep nunggu jawaban IYA kamu kok!',
                 'Udah ah,, mending klik YES aja!!',
                 'Serius deh, YES itu enak lho!!',
             ];
@@ -63,7 +64,7 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
         if (noCount === 0) return 'No';
         if (noCount === 1) return 'Tetap no...';
         if (noCount === 2) return 'NO DONG!';
-        const runLabels = ['KABUR!!', 'LARI!!', 'NGGA MAU!!', 'BYEEE!!', 'HAHAHA!!'];
+        const runLabels = ['NO AJA', 'MASIH NO', 'NGGA MAU!!', 'NO TERUS', 'HAHAHA!!'];
         return runLabels[Math.min(noCount - RUN_AFTER, runLabels.length - 1)];
     };
 
@@ -120,100 +121,86 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
         }, 5000);
     };
 
-    /* ─── No / run-away logic ─── */
-    const [noBtnPos, setNoBtnPos] = useState<{ left: number; top: number } | null>(null);
-
-    const runAway = (cursorX?: number, cursorY?: number) => {
-        if (!noBtnRef.current || !containerRef.current) return;
-        const btn = noBtnRef.current;
-        const card = containerRef.current;
-
-        const pad = 24; // Jarak aman dari ujung card agar tombol tidak kepotong
-        const bw = btn.offsetWidth;
-        const bh = btn.offsetHeight;
-        const cw = card.offsetWidth;
-        const ch = card.offsetHeight;
-
-        // Batasan area gerak relatif terhadap card
-        const minX = pad;
-        const maxX = Math.max(minX, cw - bw - pad);
-        const minY = pad;
-        const maxY = Math.max(minY, ch - bh - pad);
-
-        let nx: number, ny: number;
-
-        if (cursorX != null && cursorY != null) {
-            const cardRect = card.getBoundingClientRect();
-            const btnRect = btn.getBoundingClientRect();
-
-            // Posisi cursor relatif terhadap card
-            const relCursorX = cursorX - cardRect.left;
-            const relCursorY = cursorY - cardRect.top;
-
-            // Titik tengah tombol saat ini relatif terhadap card
-            const btnRelX = (btnRect.left - cardRect.left) + bw / 2;
-            const btnRelY = (btnRect.top - cardRect.top) + bh / 2;
-
-            // Jauhkan dari kursor sejauh jarak tertentu
-            const dist = 90 + Math.min(noCount * 5, 40);
-            const angle = Math.atan2(btnRelY - relCursorY, btnRelX - relCursorX);
-            nx = (btnRect.left - cardRect.left) + Math.cos(angle) * dist;
-            ny = (btnRect.top - cardRect.top) + Math.sin(angle) * dist;
-
-            // Jika mentok tembok card, maka muncul di posisi acak di dalam batas card
-            if (nx < minX || nx > maxX || ny < minY || ny > maxY) {
-                nx = minX + Math.random() * (maxX - minX);
-                ny = minY + Math.random() * (maxY - minY);
-            }
-        } else {
-            // Mobile (tanpa posisi kursor detail): Acak murni di dalam area card
-            nx = minX + Math.random() * (maxX - minX);
-            ny = minY + Math.random() * (maxY - minY);
-        }
-
-        // Pastikan koordinat final tetap terkurung kuat di dalam card (Clamp)
-        nx = Math.max(minX, Math.min(nx, maxX));
-        ny = Math.max(minY, Math.min(ny, maxY));
-
-        setNoBtnPos({ left: nx, top: ny });
-    };
-
-    const handleNoClick = (e: React.MouseEvent) => {
+    const handleNoClick = () => {
         triggerShake();
         setNoCount(prev => prev + 1);
-        if (noCount >= RUN_AFTER - 1) runAway(e.clientX, e.clientY);
     };
 
-    // Desktop: proximity detection — button escapes when cursor approaches
+    const isRunning = noCount >= RUN_AFTER;
+
+    const clampAndSetNoOffset = (x: number, y: number) => {
+        // Keep movement around original button slot so it never leaves the card.
+        const limitX = isMobile ? 52 : 120;
+        const limitY = isMobile ? 28 : 58;
+        const safeX = Math.max(-limitX, Math.min(x, limitX));
+        const safeY = Math.max(-limitY, Math.min(y, limitY));
+        setNoBtnOffset({ x: safeX, y: safeY });
+    };
+
+    const runAway = (cursorX?: number, cursorY?: number) => {
+        if (!noBtnRef.current) return;
+        const btnRect = noBtnRef.current.getBoundingClientRect();
+
+        let nextX = noBtnOffset.x;
+        let nextY = noBtnOffset.y;
+
+        if (cursorX != null && cursorY != null) {
+            const centerX = btnRect.left + btnRect.width / 2;
+            const centerY = btnRect.top + btnRect.height / 2;
+            const angle = Math.atan2(centerY - cursorY, centerX - cursorX);
+            const jump = isMobile ? 44 : 78;
+
+            nextX = noBtnOffset.x + Math.cos(angle) * jump;
+            nextY = noBtnOffset.y + Math.sin(angle) * (jump * 0.55);
+        } else {
+            nextX = noBtnOffset.x + (Math.random() > 0.5 ? 52 : -52);
+            nextY = noBtnOffset.y + (Math.random() > 0.5 ? 24 : -24);
+        }
+
+        clampAndSetNoOffset(nextX, nextY);
+    };
+
+    // Desktop: escape when cursor gets close.
     useEffect(() => {
-        if (isMobile || noCount < RUN_AFTER) return;
-        const PROXIMITY = 80;
+        if (!isRunning || isMobile) return;
+
+        const PROXIMITY = 95;
         const onMouseMove = (e: MouseEvent) => {
             if (!noBtnRef.current) return;
             const rect = noBtnRef.current.getBoundingClientRect();
-            const bx = rect.left + rect.width / 2;
-            const by = rect.top + rect.height / 2;
-            const dist = Math.hypot(e.clientX - bx, e.clientY - by);
-            if (dist < PROXIMITY) runAway(e.clientX, e.clientY);
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+
+            if (dist < PROXIMITY) {
+                runAway(e.clientX, e.clientY);
+            }
         };
+
         document.addEventListener('mousemove', onMouseMove);
         return () => document.removeEventListener('mousemove', onMouseMove);
-    });
+    }, [isRunning, isMobile, noBtnOffset]);
 
-    // Mobile: move on tap
+    // Mobile: move away on touch, prevent accidental click.
     useEffect(() => {
+        if (!isRunning || !isMobile || !noBtnRef.current) return;
+
         const btn = noBtnRef.current;
-        if (!btn || noCount < RUN_AFTER) return;
-        const onTouch = (e: TouchEvent) => {
+        const onTouchStart = (e: TouchEvent) => {
             e.preventDefault();
-            e.stopPropagation();
-            triggerShake();
-            setNoCount(prev => prev + 1);
-            runAway();
+            const touch = e.touches[0];
+            runAway(touch?.clientX, touch?.clientY);
         };
-        btn.addEventListener('touchstart', onTouch, { passive: false });
-        return () => btn.removeEventListener('touchstart', onTouch);
-    });
+
+        btn.addEventListener('touchstart', onTouchStart, { passive: false });
+        return () => btn.removeEventListener('touchstart', onTouchStart);
+    }, [isRunning, isMobile, noBtnOffset]);
+
+    useEffect(() => {
+        if (!isRunning) {
+            setNoBtnOffset({ x: 0, y: 0 });
+        }
+    }, [isRunning]);
 
     // Entrance animation — staggered professional reveal
     useEffect(() => {
@@ -346,8 +333,17 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
 
                             <button
                                 ref={noBtnRef}
-                                className={`btn no-btn${noCount >= RUN_AFTER ? ' running' : ''}`}
-                                onClick={handleNoClick}
+                                className={`btn no-btn${isRunning ? ' running' : ''}`}
+                                onClick={(e) => {
+                                    if (isRunning) {
+                                        runAway(e.clientX, e.clientY);
+                                        return;
+                                    }
+                                    handleNoClick();
+                                }}
+                                onMouseEnter={() => {
+                                    if (isRunning) runAway();
+                                }}
                                 style={{
                                     padding: '10px 22px',
                                     fontSize: noFontSize,
@@ -357,13 +353,11 @@ const Gombalan: React.FC<GombalanProps> = ({ targetName, onSuccess }) => {
                                     borderRadius: '50px',
                                     cursor: 'pointer',
                                     fontWeight: 'bold',
-                                    ...(noBtnPos ? {
-                                        position: 'absolute' as const, /* Diganti jadi absolute agar tidak kabur dari div parent */
-                                        left: `${noBtnPos.left}px`,
-                                        top: `${noBtnPos.top}px`,
+                                    ...(isRunning ? {
+                                        position: 'relative' as const,
+                                        transform: `translate(${noBtnOffset.x}px, ${noBtnOffset.y}px)`,
+                                        transition: 'transform 0.2s ease',
                                         zIndex: 9999,
-                                        margin: 0,
-                                        transition: 'left 0.3s cubic-bezier(0.34,1.56,0.64,1), top 0.3s cubic-bezier(0.34,1.56,0.64,1)',
                                     } : {}),
                                 }}
                             >
