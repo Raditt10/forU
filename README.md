@@ -16,12 +16,27 @@ Kalau doi jawab **"IYA mau!"**, confetti bertebaran, lagu romantis menyala, dan 
 ## 📸 Preview
 
 <div align="center">
-  <img src="./screenshot/Screenshot%202026-03-08%20091646.png" width="380" style="border-radius: 8px; margin: 5px;" />
-  <img src="./screenshot/Screenshot%202026-03-08%20091743.png" width="380" style="border-radius: 8px; margin: 5px;" />
-  
-  <br/>
-
-  <img src="./screenshot/Screenshot%202026-03-08%20091702.png" width="240" style="border-radius: 8px; margin-top: 10px;" />
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./screenshot/Screenshot%202026-03-08%20091646.png" width="300" style="border-radius: 8px;" />
+        <br/>
+        <sub>Tampilan Amplop</sub>
+      </td>
+      <td align="center">
+        <img src="./screenshot/Screenshot%202026-03-08%20091743.png" width="300" style="border-radius: 8px;" />
+        <br/>
+        <sub>Tampilan Countdown</sub>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <img src="./screenshot/Screenshot%202026-03-08%20091702.png" width="200" style="border-radius: 8px;" />
+        <br/>
+        <sub>Tampilan Mobile Portrait</sub>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ---
@@ -72,16 +87,13 @@ cd backend
 npm install
 # Konfigurasi .env (PORT, DISCORD_BOT_TOKEN, DISCORD_WEBHOOK_URL, FRONTEND_URL)
 node server.js
-
 ```
 
 ### 2. Frontend
-
 ```bash
 cd frontend
 npm install
 npm run dev
-
 ```
 
 ---
